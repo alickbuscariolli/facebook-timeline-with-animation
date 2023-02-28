@@ -91,7 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 (index) => Column(
                   children: [
                     Divider(
-                        color: Colors.grey.shade400, height: 20, thickness: 10),
+                      color: Colors.grey.shade400,
+                      height: 20,
+                      thickness: 10,
+                    ),
                     const PostWidget(),
                   ],
                 ),
