@@ -69,7 +69,7 @@ class PostTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(AppConfig.facebookPostText);
+    return Text(AppConfig.facebookEnglishPostText);
   }
 }
 
