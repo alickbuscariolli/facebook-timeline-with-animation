@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final lista = List.generate(15, (_) => null);
+  final _storyList = List.generate(15, (_) => null);
   final _scrollCtrl = ScrollController();
 
   @override
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.separated(
                       controller: _scrollCtrl,
                       scrollDirection: Axis.horizontal,
-                      itemCount: lista.length,
+                      itemCount: _storyList.length,
                       itemBuilder: (_, int index) {
                         return index == 0
                             ? Container(
