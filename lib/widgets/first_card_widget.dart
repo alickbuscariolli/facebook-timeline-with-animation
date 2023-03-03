@@ -9,6 +9,7 @@ class FirstCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double addIconSize = (30 - offset).clamp(20, 30);
+
     return Container(
       margin: EdgeInsets.only(left: offset > 0 ? 0 : 5),
       width: (98 - offset).clamp(50, 98),

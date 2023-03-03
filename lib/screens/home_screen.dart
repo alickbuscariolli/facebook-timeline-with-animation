@@ -1,7 +1,10 @@
 import 'package:facebook_animation/widgets/card_widget.dart';
 import 'package:facebook_animation/widgets/first_card_widget.dart';
-import 'package:facebook_animation/widgets/post_widget.dart';
+import 'package:facebook_animation/widgets/facebook_posts/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/facebook_posts/facebook_posts_widget.dart';
+import '../widgets/facebook_stories_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,14 +15,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _storyList = List.generate(15, (_) => null);
-  final _scrollCtrl = ScrollController();
+  late ScrollController _scrollCtrl;
 
   @override
   void initState() {
     super.initState();
+    _scrollCtrl = ScrollController();
     _scrollCtrl.addListener(scrollListener);
   }
 
+  // Vai ficar escutando alterações no ScrollController
   void scrollListener() {
     if (_scrollCtrl.hasClients) {
       setState(() {});
@@ -33,13 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  double get _getScrollOffset {
-    if (_scrollCtrl.hasClients) {
-      return _scrollCtrl.offset;
-    }
-    return 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,58 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 32),
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  SizedBox(
-                    height: 150,
-                    child: ListView.separated(
-                      controller: _scrollCtrl,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _storyList.length,
-                      itemBuilder: (_, int index) {
-                        return index == 0
-                            ? Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.grey.shade300,
-                                  ),
-                                ),
-                              )
-                            : const CardWidget();
-                      },
-                      separatorBuilder: (_, __) {
-                        return const SizedBox(
-                          width: 12,
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    child: FirstCardWidget(
-                      offset: _getScrollOffset,
-                    ),
-                  ),
-                ],
+              FacebookStoriesListWidget(
+                scrollCtrl: _scrollCtrl,
+                storiesLength: _storyList.length,
               ),
-              const SizedBox(height: 10),
-              ...List.generate(
-                20,
-                (index) => Column(
-                  children: [
-                    Divider(
-                      color: Colors.grey.shade400,
-                      height: 20,
-                      thickness: 10,
-                    ),
-                    const PostWidget(),
-                  ],
-                ),
-              ),
+              const FacebookPostsWidget(),
             ],
           ),
         ),
