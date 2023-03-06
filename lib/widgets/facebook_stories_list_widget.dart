@@ -3,19 +3,44 @@ import 'package:flutter/material.dart';
 import 'card_widget.dart';
 import 'first_card_widget.dart';
 
-class FacebookStoriesListWidget extends StatelessWidget {
-  final ScrollController scrollCtrl;
-  final int storiesLength;
-
+class FacebookStoriesListWidget extends StatefulWidget {
   const FacebookStoriesListWidget({
-    required this.scrollCtrl,
-    required this.storiesLength,
     super.key,
   });
 
+  @override
+  State<FacebookStoriesListWidget> createState() =>
+      _FacebookStoriesListWidgetState();
+}
+
+class _FacebookStoriesListWidgetState extends State<FacebookStoriesListWidget> {
+  final _storyList = List.generate(15, (_) => null);
+  late ScrollController _scrollCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollCtrl = ScrollController();
+    _scrollCtrl.addListener(scrollListener);
+  }
+
+  // Vai ficar escutando alterações no ScrollController
+  void scrollListener() {
+    if (_scrollCtrl.hasClients) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollCtrl.removeListener(scrollListener);
+    _scrollCtrl.dispose();
+    super.dispose();
+  }
+
   double get _getScrollOffset {
-    if (scrollCtrl.hasClients) {
-      return scrollCtrl.offset;
+    if (_scrollCtrl.hasClients) {
+      return _scrollCtrl.offset;
     }
     return 0;
   }
@@ -31,9 +56,9 @@ class FacebookStoriesListWidget extends StatelessWidget {
             SizedBox(
               height: 150,
               child: ListView.separated(
-                controller: scrollCtrl,
+                controller: _scrollCtrl,
                 scrollDirection: Axis.horizontal,
-                itemCount: storiesLength,
+                itemCount: _storyList.length,
                 itemBuilder: (_, int index) {
                   return index == 0
                       ? Container(
