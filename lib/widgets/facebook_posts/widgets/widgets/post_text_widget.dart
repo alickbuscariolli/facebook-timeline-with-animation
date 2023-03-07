@@ -7,6 +7,6 @@ class PostTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(AppConfig.facebookEnglishPostText);
+    return Text(AppConfig.facebookPortuguesePostText);
   }
 }
